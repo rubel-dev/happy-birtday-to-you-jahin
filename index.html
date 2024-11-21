@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+ 
+ <html lang="en">
+<head>
+	<title>Happy Birthday To You JAHIN</title>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">  
+	<meta charset="UTF-8" />
+	<meta name="description" content="Happy Birthday">
+	<meta name="robots" content="index, follow" />
+	<meta name="keywords" content="Birthday, Happy">
+ 
+	<meta property="og:type" content="E-Greeting" />
+	<meta property="og:image" content="favicon.ico" />
+	<meta property="og:description" content="Wish you a very Happy Birthday">
+ 
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheet.css">
+	<link rel="stylesheet" type="text/css" href="loading.css">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href='http://fonts.googleapis.com/css?family=Signika' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet/less" href="cake.less">
+	<script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.1.0/less.min.js"></script>
+	   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">  
+      
+      <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+       <script type="text/javascript">
+ 
+var bits=80;  
+var speed=33;  
+var bangs=5;  
+var colours=new Array("#03f", "#f03", "#0e0", "#93f", "#0cf", "#f93", "#f0c"); 
+//                     blue    red     green   purple  cyan    orange  pink
+
+
+var bangheight=new Array();
+var intensity=new Array();
+var colour=new Array();
+var Xpos=new Array();
+var Ypos=new Array();
+var dX=new Array();
+var dY=new Array();
+var stars=new Array();
+var decay=new Array();
+var swide=800;
+var shigh=600;
+var boddie;
+
+if (typeof('addRVLoadEvent')!='function') function addRVLoadEvent(funky) {
+  var oldonload=window.onload;
+  if (typeof(oldonload)!='function') window.onload=funky;
+  else window.onload=function() {
+    if (oldonload) oldonload();
+    funky();
+  }
+}
+
+addRVLoadEvent(light_blue_touchpaper);
+
+function light_blue_touchpaper() { if (document.getElementById) {
+  var i;
+  boddie=document.createElement("div");
+  boddie.style.position="fixed";
+  boddie.style.top="0px";
+  boddie.style.left="0px";
+  boddie.style.overflow="visible";
+  boddie.style.width="1px";
+  boddie.style.height="1px";
+  boddie.style.backgroundColor="transparent";
+  document.body.appendChild(boddie);
+  set_width();
+  for (i=0; i<bangs; i++) {
+    write_fire(i);
+    launch(i);
+    setInterval('stepthrough('+i+')', speed);
+  }
+}}
+
+function write_fire(N) {
+  var i, rlef, rdow;
+  stars[N+'r']=createDiv('|', 12);
+  boddie.appendChild(stars[N+'r']);
+  for (i=bits*N; i<bits+bits*N; i++) {
+    stars[i]=createDiv('*', 13);
+    boddie.appendChild(stars[i]);
+  }
+}
+
+function createDiv(char, size) {
+  var div=document.createElement("div");
+  div.style.font=size+"px monospace";
+  div.style.position="absolute";
+  div.style.backgroundColor="transparent";
+  div.appendChild(document.createTextNode(char));
+  return (div);
+}
+
+function launch(N) {
+  colour[N]=Math.floor(Math.random()*colours.length);
+  Xpos[N+"r"]=swide*0.5;
+  Ypos[N+"r"]=shigh-5;
+  bangheight[N]=Math.round((0.5+Math.random())*shigh*0.4);
+  dX[N+"r"]=(Math.random()-0.5)*swide/bangheight[N];
+  if (dX[N+"r"]>1.25) stars[N+"r"].firstChild.nodeValue="/";
+  else if (dX[N+"r"]<-1.25) stars[N+"r"].firstChild.nodeValue="\\";
+  else stars[N+"r"].firstChild.nodeValue="|";
+  stars[N+"r"].style.color=colours[colour[N]];
+}
+
+function bang(N) {
+  var i, Z, A=0;
+  for (i=bits*N; i<bits+bits*N; i++) { 
+    Z=stars[i].style;
+    Z.left=Xpos[i]+"px";
+    Z.top=Ypos[i]+"px";
+    if (decay[i]) decay[i]--;
+    else A++;
+    if (decay[i]==15) Z.fontSize="7px";
+    else if (decay[i]==7) Z.fontSize="2px";
+    else if (decay[i]==1) Z.visibility="hidden";
+    if (decay[i]>1 && Math.random()<.1) {
+       Z.visibility="hidden";
+       setTimeout('stars['+i+'].style.visibility="visible"', speed-1);
+    }
+    Xpos[i]+=dX[i];
+    Ypos[i]+=(dY[i]+=1.25/intensity[N]);
+
+  }
+  if (A!=bits) setTimeout("bang("+N+")", speed);
+}
+
+function stepthrough(N) { 
+  var i, M, Z;
+  var oldx=Xpos[N+"r"];
+  var oldy=Ypos[N+"r"];
+  Xpos[N+"r"]+=dX[N+"r"];
+  Ypos[N+"r"]-=4;
+  if (Ypos[N+"r"]<bangheight[N]) {
+    M=Math.floor(Math.random()*3*colours.length);
+    intensity[N]=5+Math.random()*4;
+    for (i=N*bits; i<bits+bits*N; i++) {
+      Xpos[i]=Xpos[N+"r"];
+      Ypos[i]=Ypos[N+"r"];
+      dY[i]=(Math.random()-0.5)*intensity[N];
+      dX[i]=(Math.random()-0.5)*(intensity[N]-Math.abs(dY[i]))*1.25;
+      decay[i]=16+Math.floor(Math.random()*16);
+      Z=stars[i];
+      if (M<colours.length) Z.style.color=colours[i%2?colour[N]:M];
+      else if (M<2*colours.length) Z.style.color=colours[colour[N]];
+      else Z.style.color=colours[i%colours.length];
+      Z.style.fontSize="13px";
+      Z.style.visibility="visible";
+    }
+    bang(N);
+    launch(N);
+  }
+  stars[N+"r"].style.left=oldx+"px";
+  stars[N+"r"].style.top=oldy+"px";
+} 
+
+window.onresize=set_width;
+function set_width() {
+  var sw_min=999999;
+  var sh_min=999999;
+  if (document.documentElement && document.documentElement.clientWidth) {
+    if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+    if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+  }
+  if (typeof(self.innerWidth)!="undefined" && self.innerWidth) {
+    if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+    if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+  }
+  if (document.body.clientWidth) {
+    if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+    if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+  }
+  if (sw_min==999999 || sh_min==999999) {
+    sw_min=800;
+    sh_min=600;
+  }
+  swide=sw_min;
+  shigh=sh_min;
+}
+ 
+</script>
+
+    <style>
+        .bulb-holder .bulb {
+            display: none; /* Initially hide the bulbs */
+        }
+        .celebrate-img {
+            display: none; /* Initially hide the celebrate image */
+            width: 35%; /* Adjust the width as needed */
+        }
+        .message {
+            margin-top: 20px; /* Adjust this value to move the message up or down */
+        }
+    </style>
+</head>
+
+<body>
+	<input type="text" class="input" value="JAHIN" id="text" placeholder="Write something here">
+	
+	<canvas id="canvas"></canvas>
+	<div id="content">
+		<div class="loading"></div>
+		<audio class="song" controls loop>
+			<source src="Happy_birthday_to_you_MIDI(chosic.com).mp3"></source>
+			Your browser isn't invited for super fun audio time.
+		</audio>
+		<div class="balloons text-center" id="b1">
+			<h4 style="color:#f8b704;">A</h4>
+		</div>
+		<div class="balloons text-center" id="b2">
+			<h4 style="color:#152ae0;">Very</h4>
+		</div>
+		<div class="balloons text-center" id="b3">
+			<h4 style="color:#f50e0e;">Happy</h4>
+		</div>
+		<div class="balloons text-center" id="b4">
+			<h4 style="color:#470cd1;">Birthday</h4>
+		</div>
+		<div class="balloons text-center" id="b5">
+			<h4 style="color:#705ef6;">The Most</h4>
+		</div>
+		<div class="balloons text-center" id="b6">
+			<h4 style="color:#6cc712;">& Smartest</h4>
+		</div>
+		<div class="balloons text-center" id="b7">
+			<h4 style="color:#0f962c;">Girl</h4>
+		</div>
+		<div class="balloons text-center" id="b7">
+			<h4 style="color:#0f962c;">Jahin</h4>
+		</div>
+
+		<img src="Images/Balloon-Border.png" width="100%" class="balloon-border">
+
+		<div class="container">
+			<div class="row">
+				<div class="col-md-2 col-xs-2 bulb-holder">
+					<img class="bulb" src="Images/bulb_yellow.png" alt="Yellow Bulb">
+				</div>
+				<div class="col-md-2 col-xs-2 bulb-holder">
+					<img class="bulb" src="Images/bulb_red.png" alt="Red Bulb">
+				</div>
+				<div class="col-md-2 col-xs-2 bulb-holder">
+					<img class="bulb" src="Images/bulb_blue.png" alt="Blue Bulb">
+				</div>
+				<div class="col-md-2 col-xs-2 bulb-holder">
+					<img class="bulb" src="Images/bulb_green.png" alt="Green Bulb">
+				</div>
+				<div class="col-md-2 col-xs-2 bulb-holder">
+					<img class="bulb" src="Images/bulb_pink.png" alt="Pink Bulb">
+				</div>
+				<div class="col-md-2 col-xs-2 bulb-holder">
+					<img class="bulb" src="Images/bulb_orange.png" alt="Orange Bulb">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">
+					<img src="Images/HBD Banner.webp" class="bannar" alt="Happy Birthday Banner">
+					<img src="Images/HBD 2 Banner.webp" class="bannar" alt="Happy Birthday Banner 2">
+				</div>
+			</div>
+	
+	<!-- Image Section (Image always present, but hidden behind a background) -->
+	<div class="row" id="img1">
+		<!-- Image Section -->
+		<div class="left-section" style="flex: 1; display: flex; justify-content: center; position: relative;">
+			<!-- Background color to hide the image initially -->
+			<div id="imgOverlay" class="img-overlay">
+				<img id="celebrateImg" src="Images/jahin2.jpeg" class="celebrate-img" alt="Celebrate"
+					style="width: 100%; height: auto;">
+			</div>
+		</div>
+	</div>
+	
+	<!-- Button to Show Image (Remove Background) -->
+	 
+
+
+		
+		<!-- Button to Show Image with Clear Shadow -->
+		 
+
+		<!-- Balloon Section (Initially Hidden) -->
+		<div class="right-section" id="bbb" style="flex: 1; display: none; justify-content: center;">
+			<div class="balloooon" style="text-align: center;">
+				<div class="balloon">H</div>
+				<div class="balloon">A</div>
+				<div class="balloon">P</div>
+				<div class="balloon">Y</div>
+				<br />
+				
+				<div class="balloon">B</div>
+				<div class="balloon">I</div>
+				<div class="balloon">R</div>
+				<div class="balloon">T</div>
+				<div class="balloon">H</div>
+				<div class="balloon">D</div>
+				<div class="balloon">A</div>
+				<div class="balloon">Y</div>
+				<br>
+				<div class="balloon">J</div>
+				<div class="balloon">A</div>
+				<div class="balloon">H</div>
+				<div class="balloon">I</div>
+				<div class="balloon">N</div>
+
+			</div>
+		</div>
+		
+		<!-- Button to Show Balloons -->
+	 
+
+
+
+
+			<div class="row cake-cover">
+				<div class="col-md-12 text-center">
+					<div class="cake">
+					  <div class="velas">
+						<div class="fuego"></div>
+						<div class="fuego"></div>
+						<div class="fuego"></div>
+						<div class="fuego"></div>
+						<div class="fuego"></div>
+					  </div>
+					  <div class="cobertura"></div>
+					  <div class="bizcocho"></div>
+					</div>
+				</div>
+			</div>
+			<div class="row message">
+				<div class="col-md-12">
+				<p>On this special day...</p>
+				 
+				<p> nother year has gracefully passed.</p>
+				<p>In the blink of an eye,</p>
+				<p><strong>however,</strong></p>
+				<p>Do you feel...?</p>
+				<p>Today is uniquely extraordinary,</p>
+				<p>exclusively yours.</p>
+				<p>That's why</p>
+				<p>Let's transform it...</p>
+				<p>into the grandest celebration ever.</p>
+				<p>Allow me to share...</p>
+				<p>a slice of joy with you.</p> 
+				 
+				<p>Gratitude for everything,</p>
+				<p>I wish you nothing but the best.</p>
+				<p>May your life flow smoothly,</p>
+				<p>May every wish find its way to reality.</p>
+				<p>Recall</p>
+				<p>your aspirations,</p>
+				<p>live like a liberated bird...</p> 
+				<p>I hope</p>
+				<p>you discover...</p>
+				<p>joy along the journey.</p>
+				<p>Keep your spirits high,</p>
+				 
+				 
+				<p>Lastly...</p>
+				<p>Allow me to extend my wishes once more,</p>
+				<p>a profoundly happy birthday to you!</p>
+			</div>
+		</div>
+		
+		<div class="navbar navbar-fixed-bottom">
+			<div class="row">
+				<div class="col-md-6 text-center col-md-offset-3">
+					<button class="btn btn-primary" id="turn_on">Turn On Lights</button>
+					<button class="btn btn-primary" id="play">Click And Wait...</button>
+					<button class="btn btn-primary" id="bannar_coming">Let's Decorate</button>
+					
+					<button class="btn btn-primary" id="balloons_flying">Fly With Balloons</button>
+					<button class="btn btn-primary" id="cake_fadein">Most Delicious Cake Ever</button>
+					<button class="btn btn-primary" id="light_candle"> Light Candle</button>
+					<button class="btn btn-primary" id="wish_message">Happy Birthday</button>
+					<button class="btn btn-primary" id="story">A message for you</button>
+					 
+					<!-- <button class="btn btn-primary" id="cake_cut">Let's Cut the Cake</button> -->
+				</div>
+				
+			</div>
+		</div>
+		<div class="dra" id='dra' style="display: none;">
+			<div class="chest">
+				<div class="chest__panel chest__panel--back"></div>
+				<div class="chest__panel chest__panel--front">
+					<div class="chest__panel chest__panel--front-frame"></div>
+				</div>
+				<div class="chest__panel chest__panel--top"></div>
+				<div class="chest__panel chest__panel--bottom"></div>
+				<div class="chest__panel chest__panel--left"></div>
+				<div class="chest__panel chest__panel--right"></div>
+				<div class="chest-drawer chest-drawer--top">
+					<details>
+						<summary></summary>
+					</details>
+					<div class="chest-drawer__structure">
+						<div class="chest-drawer__panel chest-drawer__panel--left"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--right"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--bottom"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--back">YOU</div>
+					</div>
+				</div>
+				<div class="chest-drawer chest-drawer--middle">
+					<details>
+						<summary></summary>
+					</details>
+					<div class="chest-drawer__structure">
+						<div class="chest-drawer__panel chest-drawer__panel--left"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--right"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--bottom"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--back">ARE</div>
+					</div>
+				</div>
+				<div class="chest-drawer chest-drawer--bottom">
+					<details>
+						<summary></summary>
+					</details>
+					<div class="chest-drawer__structure">
+						<div class="chest-drawer__panel chest-drawer__panel--left"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--right"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--bottom"></div>
+						<div class="chest-drawer__panel chest-drawer__panel--back">NICE!</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	 
+	</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script>
+    // JavaScript to show the bulbs and celebrate image when the "Turn On Lights" button is clicked
+    document.getElementById('turn_on').addEventListener('click', function() {
+        var bulbs = document.querySelectorAll('.bulb');
+        bulbs.forEach(function(bulb) {
+            bulb.style.display = 'block';
+        });
+        var celebrateImg = document.querySelector('.celebrate-img');
+        celebrateImg.style.display = 'block';
+    });
+</script>
+<script src="effect.js"></script>
+<script>
+	let canvas = document.getElementById('canvas')
+	let ctx = canvas.getContext('2d')
+	let ww = canvas.width = window.innerWidth
+	let wh = canvas.height = window.innerHeight
+	let radius = 1;
+	let clr = document.getElementById('clr')
+	let particles = []
+	let num = 0
+	let text = document.getElementById('text')
+
+	function rand() {
+		let r = Math.floor(Math.random() * 255)
+		let g = Math.floor(Math.random() * 255)
+		let b = Math.floor(Math.random() * 255)
+
+		return "rgb(" + r + "," + g + "," + b + ")"
+
+	}
+
+
+	let Particle = function (x, y) {
+		this.x = canvas.width * Math.random();
+		this.y = canvas.height * Math.random();
+		this.dest = { x: x, y: y }
+		this.r = Math.random() * 5 + 2
+		this.vx = (Math.random() - 0.5) * 15;
+		this.vy = (Math.random() - 0.5) * 15;
+		this.ax = 0
+		this.ay = 0
+		this.f = Math.random() * 0.05 + 0.94
+		this.clr = rand();
+	}
+
+	Particle.prototype.render = function () {
+		this.ax = (this.dest.x - this.x) / 1000
+		this.ay = (this.dest.y - this.y) / 1000
+		this.vx += this.ax
+		this.vy += this.ay
+		this.vx *= this.f
+		this.vy *= this.f
+
+		this.x += this.vx
+		this.y += this.vy
+
+		ctx.fillStyle = this.clr;
+		ctx.beginPath()
+		ctx.arc(this.x, this.y, this.r, Math.PI * 2, false);
+		ctx.fill()
+
+		let distance = Math.sqrt(this.x ** 2 + this.y ** 2)
+
+	}
+
+
+	function f() {
+		ctx.clearRect(0, 0, ww, wh);
+		ctx.font = "bold " + (ww / 6) + "px sans-serif";  // Adjust font size proportionally
+		ctx.textAlign = "center";
+		ctx.fillText(text.value, ww / 2, wh / 2);
+
+		let data = ctx.getImageData(0, 0, ww, wh).data;
+		ctx.clearRect(0, 0, ww, wh);
+
+		particles = [];
+		for (let i = 0; i < ww; i += Math.round(ww / 150)) {
+			for (let j = 0; j < wh; j += Math.round(ww / 150)) {
+				if (data[((i + j * ww) * 4) + 3] > 150) {
+					particles.push(new Particle(i, j));
+				}
+			}
+		}
+
+		num = particles.length;
+	}
+
+
+
+	function render() {
+		requestAnimationFrame(render);
+		ctx.clearRect(0, 0, ww, wh);
+		for (var i = 0; i < num; i++) {
+			particles[i].render();
+		}
+	};
+
+
+
+
+
+	f();
+	text.addEventListener("keyup", f);
+
+	window.addEventListener("resize", f);
+	requestAnimationFrame(render);
+
+	//audio
+	window.addEventListener("mouseover", play);
+	window.addEventListener("click", play);
+	function play() {
+		document.getElementById("aud").play();
+	}
+</script>
+
+</html>
