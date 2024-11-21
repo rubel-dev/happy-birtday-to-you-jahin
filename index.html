@@ -203,9 +203,29 @@ function set_width() {
 </head>
 
 <body>
+	<div id="birthday-container">
+		<!-- Emoji floating effect -->
+		<div id="emoji-container">
+			<span>🎂</span>
+			<span>🎉</span>
+			<span>🎈</span>
+		</div>
+	
+		<!-- Text animation -->
+		<div id="text-container" style="font-size: 50px;">
+			<span class="word" style="color:#007BFF;">Happy</span>
+			<span class="word" style="color:#FF5722;">Birthday</span>
+			<span class="word" style="color:#8E44AD;">Jahin</span>
+		</div>
+	
+		<!-- Merged final text -->
+	
+	</div>
 	<input type="text" class="input" value="JAHIN" id="text" placeholder="Write something here">
 	
-	<canvas id="canvas"></canvas>
+	<canvas id="canvas">
+		
+	</canvas>
 	<div id="content">
 		<div class="loading"></div>
 		<audio class="song" controls loop>
@@ -373,22 +393,22 @@ function set_width() {
 		<div class="navbar navbar-fixed-bottom">
 			<div class="row">
 				<div class="col-md-6 text-center col-md-offset-3">
-					<button class="btn btn-primary" id="turn_on">Turn On Lights</button>
+					<button class="btn btn-primary" id="turn_on">Turn On Lights & Scroll The Down</button>
 					<button class="btn btn-primary" id="play">Click And Wait...</button>
-					<button class="btn btn-primary" id="bannar_coming">Let's Decorate</button>
+					<button class="btn btn-primary" id="bannar_coming">Let's Decorate & Scroll The Up</button>
 					
 					<button class="btn btn-primary" id="balloons_flying">Fly With Balloons</button>
 					<button class="btn btn-primary" id="cake_fadein">Most Delicious Cake Ever</button>
 					<button class="btn btn-primary" id="light_candle"> Light Candle</button>
 					<button class="btn btn-primary" id="wish_message">Happy Birthday</button>
-					<button class="btn btn-primary" id="story">A message for you</button>
+					<button class="btn btn-primary" id="story">A Special message for you</button>
 					 
 					<!-- <button class="btn btn-primary" id="cake_cut">Let's Cut the Cake</button> -->
 				</div>
 				
 			</div>
 		</div>
-		<div class="dra" id='dra' style="display: none;">
+		<div class="dra" id='dra' style="display: none; margin-top:100px">
 			<div class="chest">
 				<div class="chest__panel chest__panel--back"></div>
 				<div class="chest__panel chest__panel--front">
